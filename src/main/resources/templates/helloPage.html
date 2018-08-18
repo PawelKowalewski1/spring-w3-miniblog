@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HelloPage</title>
+</head>
+<body>
+<h1>  To jest moja pierwsza strona  </h1>
+<p th:text="${value}">  Example Value#1     </p>
+<div th:if="${firstName != null}" th:text="${firstName}" style="border: 1px solid red;">Michał</div>
+<p>Wprowadż swoje imię</p>
+<form method="get" action="" th:if="${firstName == null}" >
+    <input type="text" name="firstName" />
+    <input type="submit" value="WPROWADŹ" >
+</form>
+
+
+
+</body>
+</html>
