@@ -14,7 +14,10 @@
     <input type="submit" value="WPROWADŹ" >
 </form>
 
+<p th:if="${firstName != null}" th:text="${'Hello,' + firstName}"></p>
+<p th:unless="${firstName !=null}" th:text="${'Hello'}"></p>
 
-
+<p th:text="${'Hello' + (firstName!=null ? ',' + firstName : '')}"<p/>
+<p th:text="${ua}"></p>
 </body>
 </html>

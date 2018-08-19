@@ -5,7 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<h1> Hello!!!</h1>
+<h1> Witaj na moim blogu! </h1>
+
+<p>Wprowadż tytuł postu, który chcesz wyszukać</p>
+<form method="get" th:action="@{/search}"  >
+    <input type="text" name="q" placeholder="Wyszukaj po tytule..." />
+    <input type="submit" value="WYSZUKAJ" >
+</form>
 
 </body>
 </html>
