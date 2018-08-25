@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByTitleContains(String title);
+    List<Post> findAllByTitleContainsOrContentContains(String title, String content);
+    List<Post> findAllByTitleContainsAndContentContainsOrderByTitleDesc(String title, String content);
 }

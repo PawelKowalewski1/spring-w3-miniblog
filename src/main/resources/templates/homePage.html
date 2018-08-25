@@ -10,6 +10,12 @@
 <p>Wprowadż tytuł postu, który chcesz wyszukać</p>
 <form method="get" th:action="@{/search}"  >
     <input type="text" name="q" placeholder="Wyszukaj po tytule..." />
+    <select name="searchBy">
+    <option value="title">Po tytule</option>
+    <option value="titleOrContent">Po tytule lub opisie</option>
+    <option value="titleAndContent">Po tytule i opisie</option>
+
+    </select>
     <input type="submit" value="WYSZUKAJ" >
 </form>
 

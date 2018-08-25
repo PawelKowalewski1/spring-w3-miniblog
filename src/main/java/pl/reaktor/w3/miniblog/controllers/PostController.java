@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.reaktor.w3.miniblog.entities.Post;
 import pl.reaktor.w3.miniblog.repositories.PostRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -74,9 +75,22 @@ public class PostController {
 
     }
 @GetMapping("/search")
-public String searchPosts(Model model , @RequestParam String q){
+public String searchPosts(Model model , @RequestParam String q,
+@RequestParam String searchBy){
 
-    List<Post> posts = postRepository.findAllByTitleContains(q);
+    List<Post> posts ;
+
+    if ("title".equals(searchBy)){
+        posts=postRepository.findAllByTitleContains(q);
+    } else if ("titleOrContent".equals(searchBy)){
+        posts = postRepository.findAllByTitleContainsOrContentContains(q,q);
+    }else if ("titleAndContent".equals(searchBy))
+        posts=postRepository.findAllByTitleContainsAndContentContainsOrderByTitleDesc(q,q);
+    else {
+        posts = new ArrayList<>();
+    }
+
+
     model.addAttribute("phrase", q);
     model.addAttribute("posts", posts);
 
