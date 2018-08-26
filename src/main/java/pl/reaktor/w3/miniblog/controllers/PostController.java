@@ -6,13 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.reaktor.w3.miniblog.entities.Comment;
 import pl.reaktor.w3.miniblog.entities.Post;
+import pl.reaktor.w3.miniblog.repositories.CommentRepository;
 import pl.reaktor.w3.miniblog.repositories.PostRepository;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -21,9 +24,11 @@ import java.util.Optional;
 public class PostController {
 
     private PostRepository postRepository;
+    private CommentRepository commentRepository;
 @Autowired
-    public PostController(PostRepository postRepository) {
+    public PostController(PostRepository postRepository, CommentRepository commentRepository) {
         this.postRepository = postRepository;
+        this.commentRepository=commentRepository;
     }
 
     @RequestMapping(value = "/post/add", method = RequestMethod.GET)
@@ -66,11 +71,22 @@ public class PostController {
 
         if (postById.isPresent()){
             model.addAttribute("post", postById.get());
+//            List<Comment> comments = commentRepository.findAll();
+//            List<Comment> goodComments = new ArrayList<>();
+//            for (Comment comment:comments)
+//                if(comment.getPost().getId().equals(id)){
+//                    goodComments.add(comment);
+//            }
+//
+//            model.addAttribute("comments", goodComments);
+
+
+            List<Comment> goodComments = commentRepository.findAll().stream()
+                    .filter(c -> c.getPost().getId().equals(id))
+                    .collect(Collectors.toList());
+
             return "post/postPresentation";
         }
-
-
-
         return"post/postNotFound";
 
     }
@@ -98,7 +114,26 @@ public String searchPosts(Model model , @RequestParam String q,
 }
 
 
+@PostMapping("/post/{postId}/comment/add")
+    public String addCommentAction(@RequestParam String commentBody,
+                                   @PathVariable Long postId,
+                                    @RequestParam (required = false) Long postHiddenId){
+    Optional<Post> postOptional = postRepository.findById(postId);
 
+    if(!postOptional.isPresent()){
+        return "redirect:/posts";
+    }
+
+    Comment comment = new Comment();
+    comment.setCommentBody(commentBody);
+    comment.setAdded(new Date());
+    comment.setPost(postOptional.get());
+
+
+    commentRepository.save(comment);
+
+    return "redirect:/posts/"+postId;
+}
 
 
 

@@ -14,6 +14,22 @@
     <div th:text="${post.added}"> 2018-08-19  09:42</div>
     <p th:text="${post.content}">Treść posta</p>
 </div>
+<h2>KOMENTARZE</h2>
+
+<form method="post" th:action="@{/post/{postId}/comment/add(postId=${post.id})}">
+    <input type="hidden" name="postHiddenId" th:value="${post.id}">
+    <textarea name="commentBody" placeholder="Treść komentarza"></textarea>
+    <br>
+    <input type="submit" value="Dodaj">
+</form>
+
+<div th:each="asd: ${comments}">
+<span th:text="${asd.added}"></span>
+    <div th:text="${asd.commentBody}"></div>
+</div>
+
+
+
 
 </body>
 </html>
