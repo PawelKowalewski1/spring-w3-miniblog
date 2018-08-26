@@ -80,10 +80,14 @@ public class PostController {
 //
 //            model.addAttribute("comments", goodComments);
 
+//Java8 wersja
+//            List<Comment> goodComments = commentRepository.findAll().stream()
+//                    .filter(c -> c.getPost().getId().equals(id))
+//                    .collect(Collectors.toList());
+//model.addAttribute("comments", goodComments);
 
-            List<Comment> goodComments = commentRepository.findAll().stream()
-                    .filter(c -> c.getPost().getId().equals(id))
-                    .collect(Collectors.toList());
+            List<Comment> goodComments = commentRepository.findAllByPostId(id);
+            model.addAttribute("comments", goodComments);
 
             return "post/postPresentation";
         }

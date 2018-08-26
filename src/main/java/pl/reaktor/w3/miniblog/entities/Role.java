@@ -2,23 +2,18 @@ package pl.reaktor.w3.miniblog.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.web.ResourceProperties;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@Getter @Setter
-public class Comment {
-
+@Setter
+@Getter
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date added;
-    @Column(length = 2000)
-    private String commentBody;
-    @ManyToOne
-    private Post post;
-
-
+@Column(unique = true)
+    private String roleName;
 
 }

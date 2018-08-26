@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.reaktor.w3.miniblog.entities.Post;
 import pl.reaktor.w3.miniblog.entities.User;
 import pl.reaktor.w3.miniblog.forms.RegisterForm;
+import pl.reaktor.w3.miniblog.repositories.RoleRepository;
 import pl.reaktor.w3.miniblog.repositories.UserRepository;
 
 import javax.validation.Valid;
@@ -17,12 +17,17 @@ import java.util.List;
 @Controller
 public class UserController {
 
+    private RoleRepository roleRepository;
+    private UserRepository userRepository;
+
+
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(RoleRepository roleRepository, UserRepository userRepository) {
+        this.roleRepository = roleRepository;
         this.userRepository = userRepository;
     }
 
-    private UserRepository userRepository;
+
 
     @GetMapping("/user/register")
     public String userRegistration (Model model){
@@ -70,6 +75,9 @@ public class UserController {
     user.setLastName(registerForm.getLastName());
     user.setAdded(new Date());
     user.setPassword(bCryptPasswordEncoder.encode(registerForm.getPassword()));
+    user.setActive(true);
+    user.getRoles().add(roleRepository.findOneByRoleName("USER").get());
+
 
     userRepository.save(user);
 //return "goodJob";
@@ -78,5 +86,14 @@ public class UserController {
 
 
 }
+
+    @GetMapping("/user/login")
+    public String loginForm (){
+
+
+
+
+        return "user/userLogin";
+    }
 
 }

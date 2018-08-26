@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Blog Strona Logowania</title>
+
+</head>
+<body>
+<h1>  Proszę zaloguj się!  </h1>
+
+
+<form method="post"  th:action="@{/login-process}">
+    <input type="text" name="username" placeholder = "email" />
+
+    <input type="password" name="password" placeholder="podaj hasło" />
+
+
+
+    <input type="submit" value="ZALOGUJ" >
+</form>
+
+</body>
+</html>
